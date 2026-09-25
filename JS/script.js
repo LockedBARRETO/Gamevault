@@ -104,7 +104,7 @@ function adicionarAoCarrinho(id) {
     }
 
     salvarCarrinho();
-
+    console.log("Carrinho atual:", carrinho);
     alert(jogo.nome + " foi adicionado ao carrinho!");
 }
 
