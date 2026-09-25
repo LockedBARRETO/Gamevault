@@ -479,7 +479,7 @@ footer {
 
     nav {
         gap: 12px;
-        flex-wrap: wra;
+        flex-wrap: wrap;
         justify-content: center;
     }
     .jogos { 
