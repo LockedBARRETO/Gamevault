@@ -431,3 +431,26 @@ if (botaoFinalizar) {
 
 mostrarCarrinho();
 atualizarTotal();
+
+// =========================
+// MENU DE LOGIN / LOGOUT
+// =========================
+
+const linkLogin = document.querySelector("#link-login");
+
+if (linkLogin && usuarioLogado) {
+
+    linkLogin.textContent = "Sair";
+    linkLogin.href = "#";
+
+    linkLogin.addEventListener("click", function(event) {
+
+        event.preventDefault();
+
+        localStorage.removeItem("usuarioLogado");
+
+        window.location.href = "login.html";
+
+    });
+}
+
