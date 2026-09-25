@@ -1,4 +1,14 @@
 // =========================
+// VERIFICAR LOGIN
+// =========================
+
+const usuarioLogado = localStorage.getItem("usuarioLogado");
+
+if (!usuarioLogado && !window.location.pathname.includes("login.html")) {
+    window.location.href = "login.html";
+}
+
+// =========================
 // PRODUTOS
 // =========================
 
@@ -312,7 +322,6 @@ function finalizarCompra() {
 const formularioLogin =
     document.querySelector("#form-login");
 
-
 if (formularioLogin) {
 
     formularioLogin.addEventListener(
@@ -321,13 +330,11 @@ if (formularioLogin) {
 
             event.preventDefault();
 
-
             const usuario =
                 document.querySelector("#usuario").value;
 
             const senha =
                 document.querySelector("#senha").value;
-
 
             if (usuario === "admin" && senha === "1234") {
 
@@ -349,6 +356,7 @@ if (formularioLogin) {
         }
     );
 }
+
 
 
 // =========================
