@@ -250,7 +250,7 @@ function removerDoCarrinho(id) {
 function atualizarTotal() {
 
     const totalElemento = document.querySelector(".total strong");
-    const subtotalElemento = document.querySelector(".resumo p strong");
+    const subtotalElemento = document.querySelector(".resumo .subtotal");
 
     if (!totalElemento) {
         return;
