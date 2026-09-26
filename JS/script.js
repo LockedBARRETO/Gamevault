@@ -244,7 +244,6 @@ function aumentarEstoque(id) {
     alert(quantidade + " unidades de " + jogo.nome + " adicionadas ao estoque.");
 
     renderizarTabelaEstoque();
-    atualizarEstoqueNaTela();
 }
 
 // =========================
