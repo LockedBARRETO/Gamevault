@@ -50,6 +50,32 @@ const jogos = [
     }
 ];
 
+// =========================
+// CARREGAR ESTOQUE SALVO
+// =========================
+
+const estoqueSalvo = JSON.parse(localStorage.getItem("estoqueJogos"));
+
+if (estoqueSalvo) {
+    jogos.forEach(jogo => {
+        if (estoqueSalvo[jogo.id] !== undefined) {
+            jogo.estoque = estoqueSalvo[jogo.id];
+        }
+    });
+}
+
+function salvarEstoque() {
+    const estoqueParaSalvar = {};
+
+    jogos.forEach(jogo => {
+        estoqueParaSalvar[jogo.id] = jogo.estoque;
+    });
+
+    localStorage.setItem(
+        "estoqueJogos",
+        JSON.stringify(estoqueParaSalvar)
+    );
+}
 
 // =========================
 // CARRINHO
@@ -284,33 +310,22 @@ function atualizarTotal() {
 function finalizarCompra() {
 
     if (carrinho.length === 0) {
-
         alert("Seu carrinho está vazio.");
-
         return;
     }
 
-
     carrinho.forEach(item => {
-
-        const jogo = jogos.find(
-            jogo => jogo.id === item.id
-        );
-
+        const jogo = jogos.find(jogo => jogo.id === item.id);
         if (jogo) {
-
             jogo.estoque -= item.quantidade;
-
         }
     });
 
+    salvarEstoque();   // <-- linha nova
 
     carrinho = [];
-
     salvarCarrinho();
-
     alert("Compra realizada com sucesso!");
-
     mostrarCarrinho();
 }
 
