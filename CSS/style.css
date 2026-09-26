@@ -596,3 +596,36 @@ footer {
     }
 
 }
+/* =========================
+   AÇÕES DE ESTOQUE (ADMIN)
+========================= */
+
+.acao-estoque {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.input-quantidade-estoque {
+    width: 60px;
+    padding: 8px;
+    background-color: #101014;
+    border: 1px solid #292932;
+    border-radius: 6px;
+    color: white;
+    outline: none;
+}
+
+.acao-estoque button {
+    background-color: #8b5cf6;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.acao-estoque button:hover {
+    background-color: #7043d6;
+}
