@@ -78,6 +78,34 @@ function salvarEstoque() {
 }
 
 // =========================
+// ATUALIZAR ESTOQUE NA TELA
+// =========================
+
+function atualizarEstoqueNaTela() {
+
+    const cards = document.querySelectorAll(".card-jogo");
+
+    cards.forEach(card => {
+
+        const id = Number(card.dataset.id);
+        const jogo = jogos.find(j => j.id === id);
+
+        if (!jogo) return;
+
+        const textoEstoque = card.querySelector(".estoque");
+        const botao = card.querySelector("button");
+
+        if (jogo.estoque <= 0) {
+            textoEstoque.textContent = "Esgotado";
+            botao.disabled = true;
+            botao.textContent = "Esgotado";
+        } else {
+            textoEstoque.textContent = "Estoque: " + jogo.estoque + " unidades";
+        }
+    });
+}
+
+// =========================
 // CARRINHO
 // =========================
 
@@ -370,21 +398,16 @@ if (formularioLogin) {
 // BOTÕES DO CATÁLOGO
 // =========================
 
-const botoes =
-    document.querySelectorAll(".card-jogo button");
+const cards = document.querySelectorAll(".card-jogo");
 
+cards.forEach(card => {
+    const botao = card.querySelector("button");
+    const id = Number(card.dataset.id);
 
-botoes.forEach((botao, indice) => {
-
-    botao.addEventListener(
-        "click",
-        function() {
-
-            adicionarAoCarrinho(indice + 1);
-
-        }
-    );
-
+    botao.addEventListener("click", function() {
+        adicionarAoCarrinho(id);
+        atualizarEstoqueNaTela();
+    });
 });
 
 
@@ -438,6 +461,7 @@ if (botaoFinalizar) {
 
 mostrarCarrinho();
 atualizarTotal();
+atualizarEstoqueNaTela();
 
 // =========================
 // MENU DE LOGIN / LOGOUT
