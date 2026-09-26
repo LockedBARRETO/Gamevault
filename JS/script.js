@@ -47,7 +47,73 @@ const jogos = [
         estoque: 6,
         genero: "Simulação",
         imagem: "img/stardew-valley.jpg"
-    }
+    },
+    
+    { 
+        id: 5,
+        nome: "Celeste",
+        preco: 34.90,
+        estoque: 10,
+        genero: "Plataforma",
+        imagem: "img/celeste.jpg" 
+    },
+    
+    { 
+        id: 6,
+        nome: "Bloons TD 6",
+        preco: 27.89,
+        estoque: 10,
+        genero: "Plataforma",
+        imagem: "img/celeste.jpg" 
+    },
+    
+    {
+        id: 7,
+        nome: "Dead Cells",
+        preco: 47.49,
+        estoque: 10,
+        genero: "Plataforma",
+        imagem: "img/celeste.jpg" 
+    },
+    
+    { id: 8,
+     nome: "LEGO Marvel Super Heroes",
+     preco: 36.99,
+     estoque: 10,
+     genero: "Plataforma",
+     imagem: "img/celeste.jpg" 
+    },
+    
+    { id: 9,
+     nome: "Goat Simulator",
+     preco: 37.19,
+     estoque: 10,
+     genero: "Plataforma",
+     imagem: "img/celeste.jpg" 
+    },
+    
+    { id: 10,
+     nome: "Persona 5 Royal",
+     preco: 74.97,
+     estoque: 10,
+     genero: "Plataforma",
+     imagem: "img/celeste.jpg"
+    },
+    
+    { id: 11,
+     nome: "Undertale",
+     preco: 20.00,
+     estoque: 10,
+     genero: "Plataforma",
+     imagem: "img/celeste.jpg"
+    },
+    
+    { id: 12,
+     nome: "Subnautica",
+     preco: 67.67,
+     estoque: 10,
+     genero: "Plataforma",
+     imagem: "img/celeste.jpg" },    
 ];
 
 // =========================
