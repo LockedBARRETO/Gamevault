@@ -629,3 +629,16 @@ footer {
 .acao-estoque button:hover {
     background-color: #7043d6;
 }
+
+.form-cadastro-jogo {
+    background-color: #18181f;
+    border: 1px solid #292932;
+    border-radius: 12px;
+    padding: 25px;
+    margin-top: 30px;
+}
+
+.form-cadastro-jogo h3 {
+    color: #8b5cf6;
+    margin-bottom: 20px;
+}
