@@ -9,166 +9,123 @@ if (!usuarioLogado && !window.location.pathname.includes("login.html")) {
 }
 
 // =========================
-// PRODUTOS
+// PRODUTOS (catálogo)
 // =========================
 
-const jogos = [
-    {
-        id: 1,
-        nome: "Minecraft",
-        preco: 89.90,
-        estoque: 5,
-        genero: "Sandbox",
-        imagem: "img/minecraft.jpg"
-    },
-
-    {
-        id: 2,
-        nome: "Terraria",
-        preco: 19.90,
-        estoque: 8,
-        genero: "Aventura",
-        imagem: "img/terraria.jpg"
-    },
-
-    {
-        id: 3,
-        nome: "Hollow Knight-PS4",
-        preco: 46.99,
-        estoque: 4,
-        genero: "Metroidvania",
-        imagem: "img/hollow-knight.jpg"
-    },
-
-    {
-        id: 4,
-        nome: "Stardew Valley",
-        preco: 24.99,
-        estoque: 6,
-        genero: "Simulação",
-        imagem: "img/stardew-valley.jpg"
-    },
-    
-    { 
-        id: 5,
-        nome: "Celeste",
-        preco: 34.90,
-        estoque: 10,
-        genero: "Plataforma",
-        imagem: "img/celeste.jpg" 
-    },
-    
-    { 
-        id: 6,
-        nome: "Bloons TD 6",
-        preco: 27.89,
-        estoque: 10,
-        genero: "Plataforma",
-        imagem: "img/celeste.jpg" 
-    },
-    
-    {
-        id: 7,
-        nome: "Dead Cells",
-        preco: 47.49,
-        estoque: 10,
-        genero: "Plataforma",
-        imagem: "img/celeste.jpg" 
-    },
-    
-    { id: 8,
-     nome: "LEGO Marvel Super Heroes",
-     preco: 36.99,
-     estoque: 10,
-     genero: "Plataforma",
-     imagem: "img/celeste.jpg" 
-    },
-    
-    { id: 9,
-     nome: "Goat Simulator",
-     preco: 37.19,
-     estoque: 10,
-     genero: "Plataforma",
-     imagem: "img/celeste.jpg" 
-    },
-    
-    { id: 10,
-     nome: "Persona 5 Royal",
-     preco: 74.97,
-     estoque: 10,
-     genero: "Plataforma",
-     imagem: "img/celeste.jpg"
-    },
-    
-    { id: 11,
-     nome: "Undertale",
-     preco: 20.00,
-     estoque: 10,
-     genero: "Plataforma",
-     imagem: "img/celeste.jpg"
-    },
-    
-    { id: 12,
-     nome: "Subnautica",
-     preco: 67.67,
-     estoque: 10,
-     genero: "Plataforma",
-     imagem: "img/celeste.jpg" },    
+const jogosPadrao = [
+    { id: 1, nome: "Minecraft", preco: 89.90, estoque: 5, genero: "Sandbox", imagem: "img/minecraft.jpg" },
+    { id: 2, nome: "Terraria", preco: 19.90, estoque: 8, genero: "Aventura", imagem: "img/terraria.jpg" },
+    { id: 3, nome: "Hollow Knight-PS4", preco: 46.99, estoque: 4, genero: "Metroidvania", imagem: "img/hollow-knight.jpg" },
+    { id: 4, nome: "Stardew Valley", preco: 24.99, estoque: 6, genero: "Simulação", imagem: "img/stardew-valley.jpg" }
 ];
 
+let jogos = JSON.parse(localStorage.getItem("catalogoJogos"));
+
+if (!jogos) {
+
+    jogos = jogosPadrao;
+
+    // Migração: se já existia estoque salvo do sistema antigo, aplica por cima
+    const estoqueAntigo = JSON.parse(localStorage.getItem("estoqueJogos"));
+
+    if (estoqueAntigo) {
+        jogos.forEach(jogo => {
+            if (estoqueAntigo[jogo.id] !== undefined) {
+                jogo.estoque = estoqueAntigo[jogo.id];
+            }
+        });
+    }
+}
+
+function salvarCatalogo() {
+    localStorage.setItem("catalogoJogos", JSON.stringify(jogos));
+}
+
+salvarCatalogo();
+
 // =========================
-// CARREGAR ESTOQUE SALVO
+// RENDERIZAR CATÁLOGO (index.html)
 // =========================
 
-const estoqueSalvo = JSON.parse(localStorage.getItem("estoqueJogos"));
+function renderizarCatalogo() {
 
-if (estoqueSalvo) {
+    const container = document.querySelector(".jogos");
+
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = "";
+
     jogos.forEach(jogo => {
-        if (estoqueSalvo[jogo.id] !== undefined) {
-            jogo.estoque = estoqueSalvo[jogo.id];
-        }
+
+        const card = document.createElement("article");
+        card.classList.add("card-jogo");
+        card.dataset.id = jogo.id;
+
+        const precoFormatado =
+            "R$ " + jogo.preco.toFixed(2).replace(".", ",");
+
+        card.innerHTML = `
+            <img src="${jogo.imagem}" alt="Capa do ${jogo.nome}">
+            <h3>${jogo.nome}</h3>
+            <p class="genero">${jogo.genero}</p>
+            <p class="preco">${precoFormatado}</p>
+            <p class="estoque">
+                ${jogo.estoque > 0 ? "Estoque: " + jogo.estoque + " unidades" : "Esgotado"}
+            </p>
+            <button ${jogo.estoque <= 0 ? "disabled" : ""}>
+                ${jogo.estoque <= 0 ? "Esgotado" : "Adicionar ao carrinho"}
+            </button>
+        `;
+
+        card.querySelector("button").addEventListener("click", function() {
+            adicionarAoCarrinho(jogo.id);
+            renderizarCatalogo();
+        });
+
+        container.appendChild(card);
     });
 }
 
-function salvarEstoque() {
-    const estoqueParaSalvar = {};
+// =========================
+// CADASTRAR NOVO JOGO (ADMIN)
+// =========================
 
-    jogos.forEach(jogo => {
-        estoqueParaSalvar[jogo.id] = jogo.estoque;
-    });
-
-    localStorage.setItem(
-        "estoqueJogos",
-        JSON.stringify(estoqueParaSalvar)
-    );
+function proximoIdDisponivel() {
+    return jogos.length > 0
+        ? Math.max(...jogos.map(j => j.id)) + 1
+        : 1;
 }
 
-// =========================
-// ATUALIZAR ESTOQUE NA TELA
-// =========================
+function cadastrarJogo(nome, genero, preco, estoque, imagem) {
 
-function atualizarEstoqueNaTela() {
+    if (usuarioLogado !== "admin") {
+        alert("Apenas o administrador pode cadastrar jogos.");
+        return;
+    }
 
-    const cards = document.querySelectorAll(".card-jogo");
+    if (!nome || !genero || isNaN(preco) || isNaN(estoque)) {
+        alert("Preencha todos os campos corretamente.");
+        return;
+    }
 
-    cards.forEach(card => {
+    const novoJogo = {
+        id: proximoIdDisponivel(),
+        nome: nome,
+        genero: genero,
+        preco: preco,
+        estoque: estoque,
+        imagem: imagem || "img/sem-capa.jpg"
+    };
 
-        const id = Number(card.dataset.id);
-        const jogo = jogos.find(j => j.id === id);
+    jogos.push(novoJogo);
+    salvarCatalogo();
 
-        if (!jogo) return;
+    alert(nome + " foi cadastrado com sucesso!");
 
-        const textoEstoque = card.querySelector(".estoque");
-        const botao = card.querySelector("button");
-
-        if (jogo.estoque <= 0) {
-            textoEstoque.textContent = "Esgotado";
-            botao.disabled = true;
-            botao.textContent = "Esgotado";
-        } else {
-            textoEstoque.textContent = "Estoque: " + jogo.estoque + " unidades";
-        }
-    });
+    renderizarTabelaEstoque();
+    renderizarCatalogo();
 }
 
 // =========================
@@ -257,7 +214,7 @@ function aumentarEstoque(id) {
 
     jogo.estoque += quantidade;
 
-    salvarEstoque();
+    salvarCatalogo();
 
     alert(quantidade + " unidades de " + jogo.nome + " adicionadas ao estoque.");
 
@@ -574,7 +531,7 @@ function finalizarCompra() {
         }
     });
 
-    salvarEstoque();   // <-- linha nova
+    salvarCatalogo()
 
     carrinho = [];
     salvarCarrinho();
@@ -624,25 +581,6 @@ if (formularioLogin) {
         }
     );
 }
-
-
-
-// =========================
-// BOTÕES DO CATÁLOGO
-// =========================
-
-const cards = document.querySelectorAll(".card-jogo");
-
-cards.forEach(card => {
-    const botao = card.querySelector("button");
-    const id = Number(card.dataset.id);
-
-    botao.addEventListener("click", function() {
-        adicionarAoCarrinho(id);
-        atualizarEstoqueNaTela();
-    });
-});
-
 
 // =========================
 // BOTÃO VER JOGOS
@@ -702,9 +640,10 @@ if (botaoFinalizar) {
 
 mostrarCarrinho();
 atualizarTotal();
-atualizarEstoqueNaTela();
+renderizarCatalogo()
 mostrarResumoPagamento();
 renderizarTabelaEstoque();
+
 
 // =========================
 // MENU DE LOGIN / LOGOUT
