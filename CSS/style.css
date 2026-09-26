@@ -495,3 +495,104 @@ footer {
     }
 
 }
+
+/* =========================
+   PAGAMENTO
+========================= */
+
+.pagina-pagamento {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+}
+
+.pagina-pagamento > h2 {
+    grid-column: 1 / -1;
+    font-size: 32px;
+}
+
+.dados-pedido {
+    background-color: #18181f;
+    border: 1px solid #292932;
+    border-radius: 12px;
+    padding: 25px;
+}
+
+.dados-pedido h3 {
+    margin: 20px 0 15px;
+    color: #8b5cf6;
+    font-size: 18px;
+}
+
+.dados-pedido h3:first-child {
+    margin-top: 0;
+}
+
+.linha-campos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+#estado {
+    width: 100%;
+    padding: 12px;
+    background-color: #101014;
+    border: 1px solid #292932;
+    border-radius: 7px;
+    color: white;
+    outline: none;
+}
+
+.opcoes-pagamento {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.opcao-pagamento {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.botao-confirmar {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 7px;
+    background-color: #8b5cf6;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.botao-confirmar:hover {
+    background-color: #7043d6;
+}
+
+.itens-resumo-pagamento p {
+    display: flex;
+    justify-content: space-between;
+    color: #b7b7c5;
+    margin-bottom: 12px;
+}
+
+.itens-resumo-pagamento strong {
+    color: white;
+}
+
+
+@media (max-width: 900px) {
+
+    .pagina-pagamento {
+        grid-template-columns: 1fr;
+    }
+
+    .linha-campos {
+        grid-template-columns: 1fr;
+    }
+
+}
