@@ -322,6 +322,79 @@ function atualizarTotal() {
     }
 }
 
+// =========================
+// RESUMO NA TELA DE PAGAMENTO
+// =========================
+
+function mostrarResumoPagamento() {
+
+    const container = document.querySelector(".itens-resumo-pagamento");
+
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = "";
+
+    carrinho.forEach(item => {
+
+        const linha = document.createElement("p");
+
+        linha.innerHTML = `
+            ${item.nome} x${item.quantidade}
+            <strong>R$ ${(item.preco * item.quantidade).toFixed(2).replace(".", ",")}</strong>
+        `;
+
+        container.appendChild(linha);
+    });
+}
+
+
+// =========================
+// CONFIRMAR PEDIDO (formulário de pagamento)
+// =========================
+
+const formPagamento =
+    document.querySelector("#form-pagamento");
+
+
+if (formPagamento) {
+
+    formPagamento.addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+            if (carrinho.length === 0) {
+                alert("Seu carrinho está vazio.");
+                window.location.href = "index.html";
+                return;
+            }
+
+            const nome = document.querySelector("#nome").value;
+            const rua = document.querySelector("#rua").value;
+            const numero = document.querySelector("#numero").value;
+            const bairro = document.querySelector("#bairro").value;
+            const cidade = document.querySelector("#cidade").value;
+            const estado = document.querySelector("#estado").value;
+            const cep = document.querySelector("#cep").value;
+
+            finalizarCompra();
+
+            alert(
+                "Pedido confirmado, " + nome + "!\n\n" +
+                "Endereço de entrega:\n" +
+                rua + ", " + numero + " - " + bairro + "\n" +
+                cidade + " - " + estado + "\n" +
+                "CEP: " + cep
+            );
+
+            window.location.href = "index.html";
+        }
+    );
+
+}
 
 // =========================
 // FINALIZAR COMPRA
@@ -449,7 +522,15 @@ if (botaoFinalizar) {
 
     botaoFinalizar.addEventListener(
         "click",
-        finalizarCompra
+        function() {
+
+            if (carrinho.length === 0) {
+                alert("Seu carrinho está vazio.");
+                return;
+            }
+
+            window.location.href = "pagamento.html";
+        }
     );
 
 }
@@ -462,6 +543,7 @@ if (botaoFinalizar) {
 mostrarCarrinho();
 atualizarTotal();
 atualizarEstoqueNaTela();
+mostrarResumoPagamento();
 
 // =========================
 // MENU DE LOGIN / LOGOUT
