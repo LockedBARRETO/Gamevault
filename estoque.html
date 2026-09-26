@@ -32,52 +32,84 @@
     <!-- Conteúdo principal -->
     <main>
 
-       <div class="form-cadastro-jogo" id="form-cadastro-jogo" style="display: none;">
+        <section class="pagina-estoque">
 
-    <h3>Cadastrar novo jogo</h3>
+            <h2>Controle de Estoque</h2>
 
-    <form id="form-novo-jogo">
+            <p>
+                Confira a quantidade disponível de cada jogo.
+            </p>
 
-        <div class="linha-campos">
+            <div class="tabela-estoque">
 
-            <div class="campo">
-                <label for="novo-nome">Nome</label>
-                <input type="text" id="novo-nome" required>
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Jogo</th>
+                            <th>Gênero</th>
+                            <th>Preço</th>
+                            <th>Estoque</th>
+                            <th>Status</th>
+                            <th id="coluna-acoes" style="display: none;">Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="corpo-estoque">
+                        <!-- Preenchido dinamicamente pelo script.js -->
+                    </tbody>
+
+                </table>
+
             </div>
 
-            <div class="campo">
-                <label for="novo-genero">Gênero</label>
-                <input type="text" id="novo-genero" required>
+
+            <div class="form-cadastro-jogo" id="form-cadastro-jogo" style="display: none;">
+
+                <h3>Cadastrar novo jogo</h3>
+
+                <form id="form-novo-jogo">
+
+                    <div class="linha-campos">
+
+                        <div class="campo">
+                            <label for="novo-nome">Nome</label>
+                            <input type="text" id="novo-nome" required>
+                        </div>
+
+                        <div class="campo">
+                            <label for="novo-genero">Gênero</label>
+                            <input type="text" id="novo-genero" required>
+                        </div>
+
+                    </div>
+
+                    <div class="linha-campos">
+
+                        <div class="campo">
+                            <label for="novo-preco">Preço (R$)</label>
+                            <input type="number" id="novo-preco" step="0.01" min="0" required>
+                        </div>
+
+                        <div class="campo">
+                            <label for="novo-estoque">Estoque inicial</label>
+                            <input type="number" id="novo-estoque" min="0" required>
+                        </div>
+
+                    </div>
+
+                    <div class="campo">
+                        <label for="novo-imagem">Caminho da imagem (ex: img/celeste.jpg)</label>
+                        <input type="text" id="novo-imagem" placeholder="img/nome-do-arquivo.jpg">
+                    </div>
+
+                    <button type="submit" class="botao-confirmar">
+                        Cadastrar jogo
+                    </button>
+
+                </form>
+
             </div>
-
-        </div>
-
-        <div class="linha-campos">
-
-            <div class="campo">
-                <label for="novo-preco">Preço (R$)</label>
-                <input type="number" id="novo-preco" step="0.01" min="0" required>
-            </div>
-
-            <div class="campo">
-                <label for="novo-estoque">Estoque inicial</label>
-                <input type="number" id="novo-estoque" min="0" required>
-            </div>
-
-        </div>
-
-        <div class="campo">
-            <label for="novo-imagem">Caminho da imagem (ex: img/celeste.jpg)</label>
-            <input type="text" id="novo-imagem" placeholder="img/nome-do-arquivo.jpg">
-        </div>
-
-        <button type="submit" class="botao-confirmar">
-            Cadastrar jogo
-        </button>
-
-    </form>
-
-</div>
 
         </section>
 
@@ -97,4 +129,3 @@
 </body>
 
 </html>
-
