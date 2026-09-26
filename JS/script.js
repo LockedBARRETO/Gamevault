@@ -106,6 +106,100 @@ function atualizarEstoqueNaTela() {
 }
 
 // =========================
+// RENDERIZAR TABELA DE ESTOQUE
+// =========================
+
+function renderizarTabelaEstoque() {
+
+    const corpo = document.querySelector("#corpo-estoque");
+
+    if (!corpo) {
+        return;
+    }
+
+    const ehAdmin = usuarioLogado === "admin";
+
+    const colunaAcoes = document.querySelector("#coluna-acoes");
+    if (colunaAcoes) {
+        colunaAcoes.style.display = ehAdmin ? "table-cell" : "none";
+    }
+
+    corpo.innerHTML = "";
+
+    jogos.forEach(jogo => {
+
+        const linha = document.createElement("tr");
+
+        const precoFormatado =
+            "R$ " + jogo.preco.toFixed(2).replace(".", ",");
+
+        const status = jogo.estoque > 0 ? "Disponível" : "Esgotado";
+
+        linha.innerHTML = `
+            <td>${jogo.nome}</td>
+            <td>${jogo.genero}</td>
+            <td>${precoFormatado}</td>
+            <td>${jogo.estoque}</td>
+            <td>${status}</td>
+            ${ehAdmin ? `
+                <td>
+                    <div class="acao-estoque">
+                        <input
+                            type="number"
+                            min="1"
+                            value="1"
+                            id="quantidade-${jogo.id}"
+                            class="input-quantidade-estoque"
+                        >
+                        <button onclick="aumentarEstoque(${jogo.id})">
+                            Adicionar
+                        </button>
+                    </div>
+                </td>
+            ` : ""}
+        `;
+
+        corpo.appendChild(linha);
+    });
+}
+
+
+// =========================
+// AUMENTAR ESTOQUE (ADMIN)
+// =========================
+
+function aumentarEstoque(id) {
+
+    if (usuarioLogado !== "admin") {
+        alert("Apenas o administrador pode alterar o estoque.");
+        return;
+    }
+
+    const jogo = jogos.find(jogo => jogo.id === id);
+
+    if (!jogo) {
+        return;
+    }
+
+    const input = document.querySelector("#quantidade-" + id);
+    const quantidade = parseInt(input.value, 10);
+
+    if (!quantidade || quantidade <= 0) {
+        alert("Digite uma quantidade válida.");
+        return;
+    }
+
+    jogo.estoque += quantidade;
+
+    salvarEstoque();
+
+    alert(quantidade + " unidades de " + jogo.nome + " adicionadas ao estoque.");
+
+    renderizarTabelaEstoque();
+    atualizarEstoqueNaTela();
+}
+
+// =========================
 // CARRINHO
 // =========================
 
@@ -544,6 +638,7 @@ mostrarCarrinho();
 atualizarTotal();
 atualizarEstoqueNaTela();
 mostrarResumoPagamento();
+renderizarTabelaEstoque();
 
 // =========================
 // MENU DE LOGIN / LOGOUT
