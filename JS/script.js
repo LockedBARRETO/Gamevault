@@ -245,6 +245,7 @@ function aumentarEstoque(id) {
 
     renderizarTabelaEstoque();
 }
+}
 
 // =========================
 // CARRINHO
