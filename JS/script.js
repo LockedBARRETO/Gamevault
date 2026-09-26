@@ -100,26 +100,19 @@ function salvarCarrinho() {
 function adicionarAoCarrinho(id) {
 
     const jogo = jogos.find(jogo => jogo.id === id);
+    if (!jogo) return;
 
-    if (!jogo) {
+    const itemExistente = carrinho.find(item => item.id === id);
+    const quantidadeAtual = itemExistente ? itemExistente.quantidade : 0;
+
+    if (quantidadeAtual >= jogo.estoque) {
+        alert("Quantidade máxima disponível em estoque.");
         return;
     }
 
-    const itemExistente = carrinho.find(
-        item => item.id === id
-    );
-
     if (itemExistente) {
-
-        if (itemExistente.quantidade < jogo.estoque) {
-            itemExistente.quantidade++;
-        } else {
-            alert("Quantidade máxima disponível em estoque.");
-            return;
-        }
-
+        itemExistente.quantidade++;
     } else {
-
         carrinho.push({
             id: jogo.id,
             nome: jogo.nome,
@@ -130,7 +123,6 @@ function adicionarAoCarrinho(id) {
     }
 
     salvarCarrinho();
-    console.log("Carrinho atual:", carrinho);
     alert(jogo.nome + " foi adicionado ao carrinho!");
 }
 
