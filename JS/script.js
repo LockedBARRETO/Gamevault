@@ -128,6 +128,31 @@ function cadastrarJogo(nome, genero, preco, estoque, imagem) {
     renderizarCatalogo();
 }
 
+const formNovoJogo = document.querySelector("#form-novo-jogo");
+const containerFormCadastro = document.querySelector("#form-cadastro-jogo");
+
+if (containerFormCadastro && usuarioLogado === "admin") {
+    containerFormCadastro.style.display = "block";
+}
+
+if (formNovoJogo) {
+
+    formNovoJogo.addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const nome = document.querySelector("#novo-nome").value;
+        const genero = document.querySelector("#novo-genero").value;
+        const preco = parseFloat(document.querySelector("#novo-preco").value);
+        const estoque = parseInt(document.querySelector("#novo-estoque").value, 10);
+        const imagem = document.querySelector("#novo-imagem").value;
+
+        cadastrarJogo(nome, genero, preco, estoque, imagem);
+
+        formNovoJogo.reset();
+    });
+}
+
 // =========================
 // RENDERIZAR TABELA DE ESTOQUE
 // =========================
